@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: lms-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/lmsportal
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+server:
+  port: 8085
+
+lms:
+  app:
+    jwtSecret: mycustomsecretkey
+    jwtExpirationMs: 86400000
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAZCUW23KAWMLGEHTG
+      secret-key: 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
+    region:
+      static: us-east-2
+      auto: false
+    bucketName: lmsportal-amazon-aws
