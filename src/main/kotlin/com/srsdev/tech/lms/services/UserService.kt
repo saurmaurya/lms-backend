@@ -12,4 +12,5 @@ interface UserService {
     fun fetchCategory(): List<Category>
     fun fetchAuthor(): List<Author>
     fun fetchSubscribedBooks(userId: String, page: Int, size: Int): Page<Book>
+    fun getBook(userId: String, bookId: String): ByteArray
 }

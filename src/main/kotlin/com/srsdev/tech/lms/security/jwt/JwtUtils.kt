@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import java.lang.IllegalArgumentException
 import java.util.*
 
 @Component
@@ -21,10 +20,11 @@ class JwtUtils(
         val userPrincipal = authentication.principal as UserDetailsImpl
         return Jwts.builder()
             .setSubject(userPrincipal.email)
-            .claim("user",object {
-                val id=userPrincipal.id
-                val email=userPrincipal.email
-                val roles=userPrincipal.roles})
+            .claim("user", object {
+                val id = userPrincipal.id
+                val email = userPrincipal.email
+                val roles = userPrincipal.roles
+            })
             .setIssuedAt(Date())
             .setExpiration(Date(Date().time + jwtExpirationMs))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)

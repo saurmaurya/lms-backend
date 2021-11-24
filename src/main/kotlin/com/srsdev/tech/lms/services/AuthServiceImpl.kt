@@ -25,16 +25,16 @@ class AuthServiceImpl(
     private val jwtUtils: JwtUtils
 ) : AuthService {
 
-    override fun register(userBody: UserRegistrationDto): User {
+    override fun register(userBody: UserRegistrationDto, roles: Set<Role>): User {
         if (userRepository.existsUserByEmail(userBody.email!!)) {
             throw IllegalArgumentException("Error: Email already exists")
         }
-        val userRoles = mutableSetOf<Role>()
-        for (userRole in userBody.roles!!) {
-            val item = Role.values().filter { role: Role -> role.name.equals(userRole, ignoreCase = true) }.toSet()
-            userRoles.addAll(item)
-        }
-        val user = User(userBody.email, encoder.encode(userBody.password), userRoles, true)
+//        val userRoles = mutableSetOf<Role>()
+//        for (userRole in userBody.roles!!) {
+//            val item = Role.values().filter { role: Role -> role.name.equals(userRole, ignoreCase = true) }.toSet()
+//            userRoles.addAll(item)
+//        }
+        val user = User(userBody.email, encoder.encode(userBody.password), roles, true)
         return userRepository.insert(user)
     }
 

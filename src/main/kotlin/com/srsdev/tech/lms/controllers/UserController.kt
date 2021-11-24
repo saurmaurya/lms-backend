@@ -6,9 +6,11 @@ import com.srsdev.tech.lms.security.services.UserDetailsImpl
 import com.srsdev.tech.lms.services.AuthService
 import com.srsdev.tech.lms.services.UserService
 import org.springframework.data.domain.Page
+import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CrossOrigin
+import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin
 @RestController
@@ -35,11 +37,18 @@ class UserController(
         return userService.fetchBooks(page, size)
     }
 
+    @PostMapping("/books/{bookId}", produces = [MediaType.APPLICATION_PDF_VALUE])
+    fun getBook(@PathVariable bookId: String,response: HttpServletResponse): ByteArray {
+        response.addHeader("Content-Disposition", "attachment; filename=book")
+        return userService.getBook("619358ec0994954fbde46e76", bookId)
+//        return userService.getBook(this.fetchUser().id, bookId)
+    }
+
 //    @PreAuthorize("hasRole('USER')")
     @PostMapping("/books/{bookId}/checkout")
     fun checkoutBook(@PathVariable bookId: String): CheckoutBook {
-        return userService.checkoutBook("619358ec0994954fbde46e76", bookId)
-//        return userService.checkoutBook(this.fetchUser().id, bookId)
+//        return userService.checkoutBook("619358ec0994954fbde46e76", bookId)
+        return userService.checkoutBook(this.fetchUser().id, bookId)
     }
 
     @GetMapping("/books/subscribed")
